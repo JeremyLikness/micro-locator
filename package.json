@@ -1,0 +1,44 @@
+{
+  "name": "micro-locator",
+  "version": "1.0.0",
+  "description": "Service locator for microservices",
+  "main": "dist/micro-locator.js",
+  "browser": "dist/micro-locator.js",
+  "typings": "dist/micro-locator.js.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "karma:setup": "karma init karma.conf.js",
+    "local-server": "node ./test/local-server.js",
+    "test": "npm run tsc && concurrently \"npm run tsc:w\" \"npm run local-server\" \"karma start karma.conf.js\""
+  },
+  "keywords": [
+    "microservices",
+    "http",
+    "service",
+    "locator"
+  ],
+  "author": "Jeremy Likness",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeremylikness/micro-locator"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jasmine": "^2.2.33",
+    "@types/node": "^6.0.38",
+    "@types/systemjs": "^0.19.30",
+    "concurrently": "^2.2.0",
+    "jasmine": "^2.4.1",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.13.14",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-commonjs": "^1.0.0",
+    "karma-jasmine": "^0.3.6",
+    "nodejs-websocket": "^1.2.0",
+    "systemjs": "^0.19.37",
+    "tslint": "^3.15.1",
+    "typescript": "^2.1.4"
+  }
+}
