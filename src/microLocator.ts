@@ -64,6 +64,9 @@ export module MicroServicesLocator {
                     return [replacement.replacement, ...path].join('/');
                 }
                 if (replacement.type === PathType.RebaseWithoutTruncate) {
+                    if (parts[0] === '') {
+                        parts.shift();
+                    }
                     return [replacement.replacement, ...parts].join('/');
                 }
             }
@@ -104,7 +107,8 @@ export module MicroServicesLocator {
         }
 
         public rebase(signature: string, replacement: string): truncate {
-            let repl = replacement.slice(-1) === '/' ? replacement.substring(0, replacement.length-1) : replacement;
+            let repl = replacement.slice(-1) === '/' ? 
+                replacement.substring(0, replacement.length-1) : replacement;
             this.tree[signature] = {
                 type: PathType.RebaseWithoutTruncate, 
                 replacement: repl 
