@@ -8,6 +8,7 @@
   "scripts": {
     "tsc": "tsc",
     "tsc:w": "tsc -w",
+    "tslint:setup": "tslint --init",
     "karma:setup": "karma init karma.conf.js",
     "local-server": "node ./test/local-server.js",
     "test": "npm run tsc && concurrently \"npm run tsc:w\" \"npm run local-server\" \"karma start karma.conf.js\""
