@@ -14,8 +14,6 @@ export module MicroServicesLocator {
         RebaseWithoutTruncate
     }
 
-    const GlobalRoot: string = '/';
-    
     interface IMap {
         type: PathType; 
         replacement: string;
@@ -30,7 +28,7 @@ export module MicroServicesLocator {
     const ResolverTree: IResolverTree = {
         '/' : {
             type: PathType.RebaseWithTruncate,
-            replacement: GlobalRoot 
+            replacement: '' 
         }
     };
 
@@ -57,7 +55,7 @@ export module MicroServicesLocator {
         }
         let path = [];
         while (checkReplacement.length) {
-            let key = checkReplacement.join('/'),
+            let key = checkReplacement.length === 1 ? '/' : checkReplacement.join('/'),
                 replacement = tree[key];
             if (replacement && replacement.type !== PathType.Replace) {
                 if (replacement.type === PathType.RebaseWithTruncate) {
@@ -88,7 +86,7 @@ export module MicroServicesLocator {
         if (pathQuery.length === 2) {
             result = [result, pathQuery[1]].join('?');
         }
-        return result; 
+        return result ? result : '/'; 
     } 
 
     export class locator {
@@ -109,6 +107,17 @@ export module MicroServicesLocator {
         public rebase(signature: string, replacement: string): truncate {
             let repl = replacement.slice(-1) === '/' ? 
                 replacement.substring(0, replacement.length-1) : replacement;
+            if (signature === '/') {
+                this.tree[signature] = {
+                    type: PathType.RebaseWithoutTruncate,
+                    replacement: repl
+                };
+                return {
+                    truncate: () => {
+                        throw new Error('Cannot truncate root!');
+                    }
+                };
+            }
             this.tree[signature] = {
                 type: PathType.RebaseWithoutTruncate, 
                 replacement: repl 
