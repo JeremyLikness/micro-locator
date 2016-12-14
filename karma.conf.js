@@ -21,7 +21,6 @@ module.exports = function(config) {
       'build/**/*spec.js'
     ],
 
-
     // list of files to exclude
     exclude: [
       'build/test/local-server.js'

@@ -1,16 +1,19 @@
 {
   "name": "micro-locator",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Service locator for microservices",
   "main": "dist/micro-locator.js",
   "browser": "dist/micro-locator.js",
-  "typings": "dist/micro-locator.js.d.ts",
+  "typings": "dist/micro-locator.d.ts",
   "scripts": {
     "tsc": "tsc",
     "tsc:w": "tsc -w",
+    "tsc:release": "tsc -p ./tsconfig.release.json",
     "tslint:setup": "tslint --init",
     "karma:setup": "karma init karma.conf.js",
     "local-server": "node ./test/local-server.js",
+    "build": "npm run test:once && npm run tsc:release",
+    "test:once": "npm run tsc && karma start --single-run=true karma.conf.js",
     "test": "npm run tsc && concurrently \"npm run tsc:w\" \"npm run local-server\" \"karma start karma.conf.js\""
   },
   "keywords": [

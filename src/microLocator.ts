@@ -21,7 +21,7 @@ export namespace MicroServicesLocator {
 
     interface IResolverTree { [query: string]: IMap; };
 
-    interface Truncate {
+    export interface Truncate {
         truncate: Function;
     };
 

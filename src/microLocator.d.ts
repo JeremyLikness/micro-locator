@@ -1,6 +1,6 @@
 declare module MicroServicesLocator {
     
-    export interface truncate {
+    export interface Truncate {
         truncate: Function 
     }
 
@@ -18,7 +18,7 @@ declare module MicroServicesLocator {
     export class locator {
         resolve: (signature: string) => string;
         replace: (signature: string, replacement: string) => void;
-        rebase: (signature: string, replacement: string) => truncate; 
+        rebase: (signature: string, replacement: string) => Truncate; 
         configure: (config: IConfiguration) => void;
     }
 }
