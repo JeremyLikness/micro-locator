@@ -25,6 +25,17 @@ export namespace MicroServicesLocator {
         truncate: Function;
     };
 
+    export interface IConfigureReplace {
+        replace: string[];
+    }
+
+    export interface IConfigureRebase {
+        rebase: string[];
+        truncate?: boolean;
+    }
+
+    export type IConfiguration = (IConfigureRebase | IConfigureReplace)[];
+
     const ResolverTree: IResolverTree = {
         "/" : {
             type: PathType.RebaseWithTruncate,
@@ -89,9 +100,36 @@ export namespace MicroServicesLocator {
         return result ? result : "/";
     };
 
+    const INVALID_CONFIG = "Invalid configuration.";
+
     export class Locator {
 
         private tree: IResolverTree = {...ResolverTree};
+
+        public configure(config: IConfiguration) {
+            config.forEach(configuration => {
+                if (configuration["replace"]) {
+                    let replace = configuration as IConfigureReplace;
+                    if (!replace.replace || replace.replace.length !== 2) {
+                        throw new Error(INVALID_CONFIG);
+                    }
+                    this.replace(replace.replace[0], replace.replace[1]);
+                }
+                else if (configuration["rebase"]) {
+                    let rebase = configuration as IConfigureRebase;
+                    if (!rebase.rebase || rebase.rebase.length !== 2) {
+                        throw new Error (INVALID_CONFIG);
+                    }
+                    let truncate = this.rebase(rebase.rebase[0], rebase.rebase[1]);
+                    if (rebase.truncate === true) {
+                        truncate.truncate();
+                    }
+                }
+                else {
+                    throw new Error(INVALID_CONFIG);
+                }
+            });
+        }
 
         public resolve(signature: string): string {
             return GlobalResolver(this.tree, signature);
