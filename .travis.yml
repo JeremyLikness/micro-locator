@@ -3,4 +3,4 @@ node_js:
     - "4.4"
 install: 
     - npm install 
-script: npm test:once  
+script: npm run test:once  
