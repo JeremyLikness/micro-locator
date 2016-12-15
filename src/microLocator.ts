@@ -3,7 +3,7 @@
  * Copyright Jeremy Likness. All Rights Reserved.
  *
  * Use of this source code is governed by an MIT license that can be
- * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE.md 
+ * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE
  */
 
 export namespace MicroServicesLocator {

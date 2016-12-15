@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright Jeremy Likness. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT license that can be
+ * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE
+ */
 import { MicroServicesLocator } from "../src/microLocator";
 
 describe("resolve after replace", () => {
