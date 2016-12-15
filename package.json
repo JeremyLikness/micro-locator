@@ -13,7 +13,7 @@
     "karma:setup": "karma init karma.conf.js",
     "local-server": "node ./test/local-server.js",
     "build": "npm run test:once && npm run tsc:release",
-    "test:once": "npm run tsc && karma start --single-run=true karma.conf.js",
+    "test:once": "npm run tsc && karma start --single-run=true --browsers=PhantomJS karma.conf.js",
     "test": "npm run tsc && concurrently \"npm run tsc:w\" \"npm run local-server\" \"karma start karma.conf.js\""
   },
   "keywords": [
@@ -28,7 +28,10 @@
     "type": "git",
     "url": "https://github.com/jeremylikness/micro-locator"
   },
-  "dependencies": {},
+  "dependencies": {
+    "karma-phantomjs-launcher": "^1.0.2",
+    "phantomjs-prebuilt": "^2.1.14"
+  },
   "devDependencies": {
     "@types/jasmine": "^2.2.33",
     "@types/node": "^6.0.38",
