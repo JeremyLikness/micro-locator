@@ -1,5 +1,7 @@
 # Micro-Locator 
 
+![Build Status](https://api.travis-ci.org/JeremyLikness/micro-locator.svg?branch=master)
+
 A service locator for microservices. 
 
 ## Quick Start 
