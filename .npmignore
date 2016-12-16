@@ -2,6 +2,7 @@ node_modules
 src
 test
 .gitignore
+.vscode
 .travis.yml
 karma.conf.js
 tsconfig.json
