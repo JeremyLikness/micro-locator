@@ -1,6 +1,6 @@
 {
   "name": "micro-locator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Service locator for microservices",
   "main": "dist/microLocator.js",
   "browser": "dist/microLocator.js",
@@ -29,10 +29,10 @@
     "url": "https://github.com/jeremylikness/micro-locator"
   },
   "dependencies": {
-    "karma-phantomjs-launcher": "^1.0.2",
-    "phantomjs-prebuilt": "^2.1.14"
   },
-  "devDependencies": {
+  "devDependencies": {  
+    "karma-phantomjs-launcher": "^1.0.2",
+    "phantomjs-prebuilt": "^2.1.14",
     "@types/jasmine": "^2.2.33",
     "@types/node": "^6.0.38",
     "@types/systemjs": "^0.19.30",
