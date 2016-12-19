@@ -44,7 +44,7 @@ export namespace MicroServicesLocator {
     };
 
     interface IReplacementParser {
-        (tree: IResolverTree, parts: string[]): string | string[];
+        (tree: IResolverTree, parts: string[]): string;
     }
 
     const ReplacementParser: IReplacementParser = (tree: IResolverTree, parts: string[]) => {
@@ -52,7 +52,7 @@ export namespace MicroServicesLocator {
         if (tree[key] && tree[key].type === PathType.Replace) {
             return tree[key].replacement;
         }
-        return [...parts];
+        return null;
     };
 
     interface IParser {
@@ -60,10 +60,11 @@ export namespace MicroServicesLocator {
     }
 
     const Parser: IParser = (tree: IResolverTree, parts: string[]) => {
-        let checkReplacement = ReplacementParser(tree, parts);
-        if (typeof checkReplacement === "string") {
-            return checkReplacement;
+        let testReplacement = ReplacementParser(tree, parts);
+        if (testReplacement) {
+            return testReplacement;
         }
+        let checkReplacement = [...parts], replacementParts = [...parts];
         let path = [];
         while (checkReplacement.length) {
             let key = checkReplacement.length === 1 ? "/" : checkReplacement.join("/"),
@@ -73,23 +74,24 @@ export namespace MicroServicesLocator {
                     return [replacement.replacement, ...path].join("/");
                 }
                 if (replacement.type === PathType.RebaseWithoutTruncate) {
-                    if (parts[0] === "") {
-                        parts.shift();
+                    if (replacementParts[0] === "") {
+                        replacementParts.shift();
                     }
-                    return [replacement.replacement, ...parts].join("/");
+                    return [replacement.replacement, ...replacementParts].join("/");
                 }
             }
             path = [checkReplacement[checkReplacement.length - 1], ...path];
             checkReplacement.pop();
         }
         return parts.join("/");
-    }
+    };
 
     interface IResolver {
         (tree: IResolverTree, signature: string): string;
     }
 
     const GlobalResolver: IResolver = (tree: IResolverTree, sig: string) => {
+
         let pathQuery = sig.split("?");
 
         let pathSegments = pathQuery[0].split("/");
@@ -107,6 +109,7 @@ export namespace MicroServicesLocator {
         private tree: IResolverTree = {...ResolverTree};
 
         public configure(config: IConfiguration) {
+
             config.forEach(configuration => {
                 if (configuration["replace"]) {
                     let replace = configuration as IConfigureReplace;
@@ -136,31 +139,36 @@ export namespace MicroServicesLocator {
         }
 
         public replace(signature: string, replacement: string) {
-            this.tree[signature] = {
+            let newTree = {...this.tree};
+            newTree[signature] = {
                 type: PathType.Replace,
                 replacement
             };
+            this.tree = newTree;
         }
 
         public rebase(signature: string, replacement: string): Truncate {
             let repl = replacement.slice(-1) === "/" ?
-                replacement.substring(0, replacement.length - 1) : replacement;
+                replacement.substring(0, replacement.length - 1) : replacement,
+                newTree = {...this.tree};
             if (signature === "/") {
-                this.tree[signature] = {
+                newTree[signature] = {
                     type: PathType.RebaseWithoutTruncate,
                     replacement: repl
                 };
+                this.tree = newTree;
                 return {
                     truncate: () => {
                         throw new Error("Cannot truncate root!");
                     }
                 };
             }
-            this.tree[signature] = {
+            newTree[signature] = {
                 type: PathType.RebaseWithoutTruncate,
                 replacement: repl
             };
-            let node = this.tree[signature];
+            let node = newTree[signature];
+            this.tree = newTree;
             return {
                 truncate: () => node.type = PathType.RebaseWithTruncate
             };
