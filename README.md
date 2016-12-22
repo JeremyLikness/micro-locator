@@ -69,7 +69,7 @@ Based on [these test scenarios](https://github.com/JeremyLikness/micro-locator/b
 
 ```TypeScript
 loc.rebase('/', 'http://production'); // everything
-loc.resolve('/api/accounting/func1); 
+loc.resolve('/api/accounting/func1'); 
 // http://production/api/accounting/func1
 ```
 
