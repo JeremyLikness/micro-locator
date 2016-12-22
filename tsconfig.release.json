@@ -8,12 +8,10 @@
     "inlineSources": false,
     "declaration": true,
     "noEmitOnError": false,
-    "stripInternal": false,
+    "stripInternal": true,
     "lib": ["es5", "dom", "es2015.promise"]
   },
   "files" : [
-      "./src/index.ts",
-      "./src/microLocator.ts",
-      "./src/microLocator.d.ts"
+      "./src/micro-locator.ts"
   ]
 }
