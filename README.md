@@ -99,3 +99,16 @@ loc.replace('/api/accounting/func2', 'http://experimental/func');
 loc.resolve('/api/accounting/func2');
 // http://experimental/func 
 ```
+
+### Configuration syntax for bootstrapping 
+
+```TypeScript 
+loc.configure([{
+    rebase: ['/', 'http://production']
+}, {
+    rebase: ['/api/billing', 'http://billing.production/'],
+    truncate: true
+}, {
+    replace: ['/api/accounting/func2', 'http://experimental/func']
+}]);
+```
