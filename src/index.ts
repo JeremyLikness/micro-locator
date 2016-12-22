@@ -1,7 +1,9 @@
-import { MicroServicesLocator } from './microLocator';
+/// <reference path="./microLocator.ts"/>
 
-export default MicroServicesLocator;
+import { Locator } from './microLocator';
+
+export default Locator;
 
 export {
-    MicroServicesLocator
-}
+    Locator
+};

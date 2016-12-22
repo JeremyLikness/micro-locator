@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT license that can be
  * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE
  */
-import { MicroServicesLocator } from '../src/microLocator';
+import { Locator } from '../src/microLocator';
 
 interface ITest {
     requested: string;
@@ -36,11 +36,11 @@ Billing is moved to http://billing.production/func3 etc.
 
 describe('scenarios', () => {
 
-    let loc: MicroServicesLocator.Locator = null;
+    let loc: Locator = null;
     let locate: (sig: string) => string = null;
 
     beforeEach(() => {
-        loc = new MicroServicesLocator.Locator();
+        loc = new Locator();
         loc.rebase('/', 'http://production');
         loc.rebase('/api/billing', 'http://billing.production/').truncate();
         loc.replace('/api/accounting/func2', 'http://experimental/func');

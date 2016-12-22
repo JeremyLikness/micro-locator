@@ -5,15 +5,15 @@
  * Use of this source code is governed by an MIT license that can be
  * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE
  */
-import { MicroServicesLocator } from '../src/microLocator';
+import { Locator } from '../src/microLocator';
 
 describe('resolve after replace', () => {
 
-    let loc: MicroServicesLocator.Locator = null;
+    let loc: Locator = null;
     let locate: (sig: string) => string = null;
 
     beforeEach(() => {
-        loc = new MicroServicesLocator.Locator();
+        loc = new Locator();
         locate = sig => loc.resolve(sig);
         loc.replace('/api/etc', 'http://www.test.com/api/');
     });

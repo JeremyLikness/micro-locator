@@ -1,5 +1,6 @@
+/// <reference path="./microLocator.ts"/>
 "use strict";
 var microLocator_1 = require("./microLocator");
-exports.MicroServicesLocator = microLocator_1.MicroServicesLocator;
+exports.Locator = microLocator_1.Locator;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = microLocator_1.MicroServicesLocator;
+exports.default = microLocator_1.Locator;
