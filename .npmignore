@@ -6,5 +6,6 @@ test
 .travis.yml
 karma.conf.js
 tsconfig.json
-tsconfig.release.js
+tsconfig.release.json
 tslint.json
+.npmignore

@@ -4,6 +4,13 @@
 
 A service locator for microservices. 
 
+## Reference 
+
+```TypeScript 
+import { Locator } from 'micro-locator'; 
+let loc = new Locator(); 
+```
+
 ## Quick Start 
 
 Most front-end web applications either hard-code calls to Web APIs or configure a base URL, something like: 
