@@ -3,7 +3,7 @@
  * Copyright Jeremy Likness. All Rights Reserved.
  *
  * Use of this source code is governed by an MIT license that can be
- * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE.md
+ * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE
  */
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
@@ -25,52 +25,53 @@ var MicroServicesLocator;
     ;
     ;
     var ResolverTree = {
-        "/": {
+        '/': {
             type: PathType.RebaseWithTruncate,
-            replacement: ""
+            replacement: ''
         }
     };
     var ReplacementParser = function (tree, parts) {
-        var key = parts.join("/");
+        var key = parts.join('/');
         if (tree[key] && tree[key].type === PathType.Replace) {
             return tree[key].replacement;
         }
-        return parts.slice();
+        return null;
     };
     var Parser = function (tree, parts) {
-        var checkReplacement = ReplacementParser(tree, parts);
-        if (typeof checkReplacement === "string") {
-            return checkReplacement;
+        var testReplacement = ReplacementParser(tree, parts);
+        if (testReplacement) {
+            return testReplacement;
         }
+        var checkReplacement = parts.slice(), replacementParts = parts.slice();
         var path = [];
         while (checkReplacement.length) {
-            var key = checkReplacement.length === 1 ? "/" : checkReplacement.join("/"), replacement = tree[key];
+            var key = checkReplacement.length === 1 ? '/' : checkReplacement.join('/'), replacement = tree[key];
             if (replacement && replacement.type !== PathType.Replace) {
                 if (replacement.type === PathType.RebaseWithTruncate) {
-                    return [replacement.replacement].concat(path).join("/");
+                    return [replacement.replacement].concat(path).join('/');
                 }
                 if (replacement.type === PathType.RebaseWithoutTruncate) {
-                    if (parts[0] === "") {
-                        parts.shift();
+                    if (replacementParts[0] === '') {
+                        replacementParts.shift();
                     }
-                    return [replacement.replacement].concat(parts).join("/");
+                    return [replacement.replacement].concat(replacementParts).join('/');
                 }
             }
             path = [checkReplacement[checkReplacement.length - 1]].concat(path);
             checkReplacement.pop();
         }
-        return parts.join("/");
+        return parts.join('/');
     };
     var GlobalResolver = function (tree, sig) {
-        var pathQuery = sig.split("?");
-        var pathSegments = pathQuery[0].split("/");
+        var pathQuery = sig.split('?');
+        var pathSegments = pathQuery[0].split('/');
         var result = Parser(tree, pathSegments);
         if (pathQuery.length === 2) {
-            result = [result, pathQuery[1]].join("?");
+            result = [result, pathQuery[1]].join('?');
         }
-        return result ? result : "/";
+        return result ? result : '/';
     };
-    var INVALID_CONFIG = "Invalid configuration.";
+    var INVALID_CONFIG = 'Invalid configuration.';
     var Locator = (function () {
         function Locator() {
             this.tree = __assign({}, ResolverTree);
@@ -78,14 +79,14 @@ var MicroServicesLocator;
         Locator.prototype.configure = function (config) {
             var _this = this;
             config.forEach(function (configuration) {
-                if (configuration["replace"]) {
+                if (configuration['replace']) {
                     var replace = configuration;
                     if (!replace.replace || replace.replace.length !== 2) {
                         throw new Error(INVALID_CONFIG);
                     }
                     _this.replace(replace.replace[0], replace.replace[1]);
                 }
-                else if (configuration["rebase"]) {
+                else if (configuration['rebase']) {
                     var rebase = configuration;
                     if (!rebase.rebase || rebase.rebase.length !== 2) {
                         throw new Error(INVALID_CONFIG);
@@ -104,30 +105,34 @@ var MicroServicesLocator;
             return GlobalResolver(this.tree, signature);
         };
         Locator.prototype.replace = function (signature, replacement) {
-            this.tree[signature] = {
+            var newTree = __assign({}, this.tree);
+            newTree[signature] = {
                 type: PathType.Replace,
                 replacement: replacement
             };
+            this.tree = newTree;
         };
         Locator.prototype.rebase = function (signature, replacement) {
-            var repl = replacement.slice(-1) === "/" ?
-                replacement.substring(0, replacement.length - 1) : replacement;
-            if (signature === "/") {
-                this.tree[signature] = {
+            var repl = replacement.slice(-1) === '/' ?
+                replacement.substring(0, replacement.length - 1) : replacement, newTree = __assign({}, this.tree);
+            if (signature === '/') {
+                newTree[signature] = {
                     type: PathType.RebaseWithoutTruncate,
                     replacement: repl
                 };
+                this.tree = newTree;
                 return {
                     truncate: function () {
-                        throw new Error("Cannot truncate root!");
+                        throw new Error('Cannot truncate root!');
                     }
                 };
             }
-            this.tree[signature] = {
+            newTree[signature] = {
                 type: PathType.RebaseWithoutTruncate,
                 replacement: repl
             };
-            var node = this.tree[signature];
+            var node = newTree[signature];
+            this.tree = newTree;
             return {
                 truncate: function () { return node.type = PathType.RebaseWithTruncate; }
             };

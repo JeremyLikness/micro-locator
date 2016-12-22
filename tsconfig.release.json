@@ -12,6 +12,7 @@
     "lib": ["es5", "dom", "es2015.promise"]
   },
   "files" : [
+      "./src/index.ts",
       "./src/microLocator.ts",
       "./src/microLocator.d.ts"
   ]

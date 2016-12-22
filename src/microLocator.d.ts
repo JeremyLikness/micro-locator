@@ -5,8 +5,8 @@
  * Use of this source code is governed by an MIT license that can be
  * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE
  */
-declare module MicroServicesLocator {
-    
+declare module 'MicroServicesLocator' {
+
     export interface Truncate {
         truncate: Function 
     }

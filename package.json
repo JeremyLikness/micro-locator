@@ -1,8 +1,8 @@
 {
   "name": "micro-locator",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Service locator for microservices",
-  "main": "dist/microLocator.js",
+  "main": "dist/index.js",
   "browser": "dist/microLocator.js",
   "typings": "dist/microLocator.d.ts",
   "scripts": {

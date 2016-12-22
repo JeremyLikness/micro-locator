@@ -37,9 +37,9 @@ export namespace MicroServicesLocator {
     export type IConfiguration = (IConfigureRebase | IConfigureReplace)[];
 
     const ResolverTree: IResolverTree = {
-        "/" : {
+        '/' : {
             type: PathType.RebaseWithTruncate,
-            replacement: ""
+            replacement: ''
         }
     };
 
@@ -48,7 +48,7 @@ export namespace MicroServicesLocator {
     }
 
     const ReplacementParser: IReplacementParser = (tree: IResolverTree, parts: string[]) => {
-        let key = parts.join("/");
+        let key = parts.join('/');
         if (tree[key] && tree[key].type === PathType.Replace) {
             return tree[key].replacement;
         }
@@ -67,23 +67,23 @@ export namespace MicroServicesLocator {
         let checkReplacement = [...parts], replacementParts = [...parts];
         let path = [];
         while (checkReplacement.length) {
-            let key = checkReplacement.length === 1 ? "/" : checkReplacement.join("/"),
+            let key = checkReplacement.length === 1 ? '/' : checkReplacement.join('/'),
                 replacement = tree[key];
             if (replacement && replacement.type !== PathType.Replace) {
                 if (replacement.type === PathType.RebaseWithTruncate) {
-                    return [replacement.replacement, ...path].join("/");
+                    return [replacement.replacement, ...path].join('/');
                 }
                 if (replacement.type === PathType.RebaseWithoutTruncate) {
-                    if (replacementParts[0] === "") {
+                    if (replacementParts[0] === '') {
                         replacementParts.shift();
                     }
-                    return [replacement.replacement, ...replacementParts].join("/");
+                    return [replacement.replacement, ...replacementParts].join('/');
                 }
             }
             path = [checkReplacement[checkReplacement.length - 1], ...path];
             checkReplacement.pop();
         }
-        return parts.join("/");
+        return parts.join('/');
     };
 
     interface IResolver {
@@ -92,17 +92,17 @@ export namespace MicroServicesLocator {
 
     const GlobalResolver: IResolver = (tree: IResolverTree, sig: string) => {
 
-        let pathQuery = sig.split("?");
+        let pathQuery = sig.split('?');
 
-        let pathSegments = pathQuery[0].split("/");
+        let pathSegments = pathQuery[0].split('/');
         let result = Parser(tree, pathSegments);
         if (pathQuery.length === 2) {
-            result = [result, pathQuery[1]].join("?");
+            result = [result, pathQuery[1]].join('?');
         }
-        return result ? result : "/";
+        return result ? result : '/';
     };
 
-    const INVALID_CONFIG = "Invalid configuration.";
+    const INVALID_CONFIG = 'Invalid configuration.';
 
     export class Locator {
 
@@ -111,14 +111,14 @@ export namespace MicroServicesLocator {
         public configure(config: IConfiguration) {
 
             config.forEach(configuration => {
-                if (configuration["replace"]) {
+                if (configuration['replace']) {
                     let replace = configuration as IConfigureReplace;
                     if (!replace.replace || replace.replace.length !== 2) {
                         throw new Error(INVALID_CONFIG);
                     }
                     this.replace(replace.replace[0], replace.replace[1]);
                 }
-                else if (configuration["rebase"]) {
+                else if (configuration['rebase']) {
                     let rebase = configuration as IConfigureRebase;
                     if (!rebase.rebase || rebase.rebase.length !== 2) {
                         throw new Error (INVALID_CONFIG);
@@ -148,10 +148,10 @@ export namespace MicroServicesLocator {
         }
 
         public rebase(signature: string, replacement: string): Truncate {
-            let repl = replacement.slice(-1) === "/" ?
+            let repl = replacement.slice(-1) === '/' ?
                 replacement.substring(0, replacement.length - 1) : replacement,
                 newTree = {...this.tree};
-            if (signature === "/") {
+            if (signature === '/') {
                 newTree[signature] = {
                     type: PathType.RebaseWithoutTruncate,
                     replacement: repl
@@ -159,7 +159,7 @@ export namespace MicroServicesLocator {
                 this.tree = newTree;
                 return {
                     truncate: () => {
-                        throw new Error("Cannot truncate root!");
+                        throw new Error('Cannot truncate root!');
                     }
                 };
             }
