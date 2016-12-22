@@ -4,6 +4,10 @@
 
 A service locator for microservices. 
 
+Originally written by [Jeremy Likness](https://twitter.com/jeremylikness).
+
+Contact me on Twitter or via [my blog](https://csharperimage.jeremylikness.com).
+
 ## Reference 
 
 ```TypeScript 
@@ -57,3 +61,41 @@ You can choose to truncate the path you rebase (for example, rebase `/api` to `h
 
 The `configure` function enables simple, one-pass configuration when you bootstrap your app, and you can simply register the locator function with your dependency injection to hide any implementation details of the micro-services locator itself. 
 
+## Examples 
+
+Based on [these test scenarios](https://github.com/JeremyLikness/micro-locator/blob/master/test/microLocator.scenarios.spec.ts):
+
+### Rebase all calls 
+
+```TypeScript
+loc.rebase('/', 'http://production'); // everything
+loc.resolve('/api/accounting/func1); 
+// http://production/api/accounting/func1
+```
+
+### Rebase to new path 
+
+```TypeScript
+loc.rebase('/api/billing', 'http://billing.production/');
+// everything under /api/billing 
+loc.resolve('/api/billing/func3');
+// http://billing.production/api/billing/func3
+```
+
+### Rebase and truncate the path 
+
+```TypeScript 
+loc.rebase('/api/billing', 'http://billing.production').truncate();
+// everything under /api/billing 
+loc.resolve('/api/billing/func3');
+// http://billing.production/func3 
+```
+
+### Replace a node 
+
+```TypeScript 
+loc.replace('/api/accounting/func2', 'http://experimental/func');
+// only for the specific /api/accounting/func2 request
+loc.resolve('/api/accounting/func2');
+// http://experimental/func 
+```
