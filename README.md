@@ -7,8 +7,14 @@ A service locator for microservices.
 ## Reference 
 
 ```TypeScript 
-import { Locator } from 'micro-locator'; 
+import { Locator } from 'micro-locator';
+
+// do this when you bootstrap your app 
 let loc = new Locator(); 
+loc.configure({...});
+
+// use this throughout your app
+let locate = (sig: string) => loc.resolve(sig);
 ```
 
 ## Quick Start 
