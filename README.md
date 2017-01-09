@@ -1,6 +1,6 @@
 # Micro-Locator 
 
-![Build Status](https://api.travis-ci.org/JeremyLikness/micro-locator.svg?branch=master)
+![Build Status](https://api.travis-ci.org/JeremyLikness/micro-locator.svg?branch=master) [![npm](https://img.shields.io/npm/dt/micro-locator.svg)](https://www.npmjs.com/package/micro-locator)
 
 A service locator for microservices. 
 
