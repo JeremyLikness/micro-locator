@@ -10,6 +10,8 @@ Contact me on Twitter or via [my blog](https://csharperimage.jeremylikness.com).
 
 ## Reference 
 
+Install: `npm -i micro-locator --save`
+
 ```TypeScript 
 import { Locator } from 'micro-locator';
 
