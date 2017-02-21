@@ -59,7 +59,7 @@ Now all urls will resolve like this:
 
 `/api/accounting/func1 -> http://api.myapp.com/api/accounting/func1` 
 
-You can choose to truncate the path you rebase (for example, rebase `/api` to `http://api.myapp.com/` and remove the `/api` prefix) and replace specific end points. 
+You can choose to truncate the path you rebase (for example, rebase `/api` to `http://api.myapp.com/` and remove the `/api` prefix) and replace specific end points. You may configure as many rebases and replacements at any level you like, allowing micro-locator to scale to large applications.
 
 The `configure` function enables simple, one-pass configuration when you bootstrap your app, and you can simply register the locator function with your dependency injection to hide any implementation details of the micro-services locator itself. 
 
