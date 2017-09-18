@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @license
  * Copyright Jeremy Likness. All Rights Reserved.
@@ -5,7 +6,6 @@
  * Use of this source code is governed by an MIT license that can be
  * found in the LICENSE file at https://github.com/jeremylikness/micro-locator/LICENSE
  */
-"use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -14,6 +14,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var PathType;
 (function (PathType) {
     PathType[PathType["Replace"] = 0] = "Replace";
@@ -70,7 +71,7 @@ var GlobalResolver = function (tree, sig) {
     return result ? result : '/';
 };
 var INVALID_CONFIG = 'Invalid configuration.';
-var Locator = (function () {
+var Locator = /** @class */ (function () {
     function Locator() {
         this.tree = __assign({}, ResolverTree);
     }

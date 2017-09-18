@@ -1,6 +1,6 @@
 {
   "name": "micro-locator",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "Service locator for microservices",
   "main": "dist/micro-locator.js",
   "browser": "dist/micro-locator.js",
