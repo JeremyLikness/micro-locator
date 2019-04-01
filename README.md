@@ -53,7 +53,7 @@ to this:
 
 If you do nothing, the endpoint is simply reflected back. For production, just configure the locator like this: 
 
-`locator.rebase('/', 'http://api.myapp.com/)` 
+`locator.rebase('/', 'http://api.myapp.com/')` 
 
 Now all urls will resolve like this: 
 
