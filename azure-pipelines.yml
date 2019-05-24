@@ -15,7 +15,24 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+- script: npm install
+  displayName: 'npm install'
+
+- script: npm run test:once
+  displayName: 'run tests'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    failTaskOnFailedTests: true
+  displayName: 'Publish test results'
+
+- script: npm run tsc:release
+  displayName: 'build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/dist'
+    ArtifactName: 'npm'
+    publishLocation: 'Container'
